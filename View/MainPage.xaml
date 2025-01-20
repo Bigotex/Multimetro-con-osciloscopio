@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Multimetro1_0_2.View.MainPage"
+             xmlns:local="clr-namespace:Multimetro1_0_2.View;assembly=Multimetro1_0_2">
+    <StackLayout >
+        
+        <RadioButton x:Name="Option1" Value="USB" CheckedChanged="Option1_CheckedChanged">
+            <RadioButton.Content>
+                <Label Text="USB"></Label>
+            </RadioButton.Content>
+            
+        </RadioButton>
+        <RadioButton x:Name="Option2" Value="Bluetooth">
+            <RadioButton.Content>
+                <Label Text="Bluetooth"></Label>
+            </RadioButton.Content>
+
+        </RadioButton>
+        <RadioButton x:Name="Option3" Value="WiFi">
+            <RadioButton.Content>
+                <Label Text="WiFi"></Label>
+            </RadioButton.Content>
+
+        </RadioButton>
+        <Grid Margin="15,0,25,65" HeightRequest="120" VerticalOptions="Start">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="8"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Column="0">
+                <Label Text="Microcontrolador" />
+                <ListView  x:Name="Microcontrollers_Name" ItemsSource="{Binding Array_Microcontroller}" SelectedItem="{Binding NameMicrocontroller, Mode=OneWayToSource}">
+                    <ListView.ItemTemplate >
+                        <DataTemplate >
+                            <TextCell Text="{Binding}">
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <BoxView  Color="White"  Grid.Column="1">
+            </BoxView>
+            <StackLayout Grid.Column="2" >
+
+                <Label Text="Lista de puerto series disponibles" />
+                        <ListView Grid.Column="1"  x:Name="SerialPorts" ItemsSource="{Binding ArrayPorts}" SelectedItem="{Binding DeviceName , Mode=OneWayToSource}">
+                            <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding}">
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <BoxView  Color="White"  Grid.Column="3">
+            </BoxView>
+            <StackLayout Grid.Column="4">
+                <Label Text="Baudrate" />
+                <ListView  x:Name="BaudRange" ItemsSource="{Binding Array_Baudrate_Range}" SelectedItem="{Binding BaudRate, Mode=OneWayToSource}">
+
+                    <ListView.ItemTemplate >
+                        <DataTemplate >
+                            <TextCell Text="{Binding}">
+
+                            </TextCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+        <Button Clicked="Button_Clicked" Text="Conectar">
+            
+        </Button>
+    </StackLayout>
+    
+
+
+</ContentPage>

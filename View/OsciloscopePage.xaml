@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Multimetro1_0_2.View.OsciloscopePage"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             xmlns:ViewModels="clr-namespace:Multimetro1_0_2.View_Model;assembly=Multimetro1_0_2"
+             xmlns:local="clr-namespace:Multimetro1_0_2.View;assembly=Multimetro1_0_2"
+             Title="Osciloscopio">
+    <VerticalStackLayout  VerticalOptions="FillAndExpand" Padding="0,0,18,0" >
+        <Grid Margin="5,5,5,5">
+            <Grid.ColumnDefinitions >
+                <ColumnDefinition  Width=".50*"/>
+                <ColumnDefinition Width=".50*"/>
+            </Grid.ColumnDefinitions>
+            <Switch x:Name="Switch_enabler" WidthRequest="15" VerticalOptions="Start" HorizontalOptions="Start" Toggled="Start_Toggled" Grid.Column="0"/>
+            <Button Command="{Binding ExportExcel_Command}" HorizontalOptions="End" WidthRequest="200" Text="Exportar a excel" Grid.Column="1">
+                <Button.Triggers>
+                    <DataTrigger TargetType="Button"
+                         Binding="{Binding Source={x:Reference Switch_enabler}, Path=IsToggled}"
+                     Value="True">
+                        <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                    <DataTrigger TargetType="Button"
+                         Binding="{Binding Source={x:Reference Switch_enabler}, Path=IsToggled}"
+                     Value="False">
+                        <Setter Property="IsEnabled" Value="True"/>
+                    </DataTrigger>
+                </Button.Triggers>
+            </Button>
+        </Grid>
+        <chart:SfCartesianChart x:Name="Chart" HorizontalOptions="FillAndExpand" HeightRequest="350">
+            <chart:SfCartesianChart.Title>
+                <Label Text="Señal"/>
+            </chart:SfCartesianChart.Title>
+            <chart:SfCartesianChart.Legend>
+                <chart:ChartLegend/>
+            </chart:SfCartesianChart.Legend>
+            <chart:SfCartesianChart.XAxes>
+                <chart:NumericalAxis>
+                    <chart:NumericalAxis.Title>
+                        <chart:ChartAxisTitle Text="time"/>
+                    </chart:NumericalAxis.Title>
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.XAxes>
+            <chart:SfCartesianChart.YAxes>
+                <chart:NumericalAxis>
+                    <chart:NumericalAxis.Title>
+                        <chart:ChartAxisTitle Text="Voltage"/>
+                    </chart:NumericalAxis.Title>
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+            <chart:FastLineSeries ItemsSource="{Binding Data}"
+                            XBindingPath="Time" 
+                            YBindingPath="Voltage"
+							Label="Signal"
+                            EnableTooltip="True" 
+                            EnableAntiAliasing="True">
+            </chart:FastLineSeries>
+        </chart:SfCartesianChart>
+        
+        <Grid  Margin="100,20,100,10" HeightRequest="250"  VerticalOptions="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".15*"/>
+                <ColumnDefinition Width=".70*"/>
+                <ColumnDefinition Width=".15*"/>
+            </Grid.ColumnDefinitions>
+            <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="400">
+                <Slider Rotation="-90" x:Name="SliderX" WidthRequest="200" HeightRequest="50"  Maximum="15" Minimum="1" Value="{Binding ValueX}" Grid.Column="0" ></Slider>
+                <Slider Rotation="-90" Value="{Binding ValueY}" WidthRequest="200" HeightRequest="50" Maximum="15" Minimum="1" Grid.Column="0"></Slider>
+
+            </HorizontalStackLayout>
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Grid.Column="1">
+            </VerticalStackLayout>
+
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
