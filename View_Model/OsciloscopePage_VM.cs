@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Multimetro1_0_2.View_Model
 {
-    internal class Osciloscope_VM : Notification
+    internal class OsciloscopePage_VM : Notification
 
     {
         private Osciloscope osciloscope;
@@ -65,7 +65,7 @@ namespace Multimetro1_0_2.View_Model
             }
         }
 
-        public Osciloscope_VM(Osciloscope osciloscope)
+        public OsciloscopePage_VM(Osciloscope osciloscope)
         {
             this.osciloscope = osciloscope;
             ExportExcel_Command = new Command(Send_to_Excel);
@@ -81,12 +81,12 @@ namespace Multimetro1_0_2.View_Model
             }
 
         }
-        public void ControlRead(bool control)
+        public void Read(bool control)
         {
             if (control)
             {
                 sample.Clear();
-                osciloscope.StartMeasuring();
+                osciloscope.StartMeasurement();
                 //if (Application.Current != null)
                 //{
                 //    Application.Current.Dispatcher.StartTimer(TimeSpan.FromSeconds(1), () =>
@@ -104,23 +104,23 @@ namespace Multimetro1_0_2.View_Model
                 return;
             }
             //canStopTimer = true;
-            osciloscope.StopMeasuring();
+            osciloscope.StopMeasurement();
 
         }
         private void Send_to_Excel()
         {
             int n = sample.Count;
-            string[,] data = new string[n + 1, 2];
+            object[,] data = new object[n + 1, 2];
             data[0, 0] = "Voltaje";
             data[0, 1] = "Tiempo";
             for (int i = 1; i < n; i++)
             {
-                data[i, 0] = sample[i].Voltage.ToString();
-                data[i, 1] = sample[i].Time.ToString();
+                data[i, 0] = sample[i].Voltage;
+                data[i, 1] = sample[i].Time;
             }
 
 
-            Excel.CreateTable(data, "Signal");
+            Excel.CreateTable(data, "Signal", "C:\\Users\\Viggo Toledo\\Desktop\\Lectura de señales de prueba");
         }
     }
 }

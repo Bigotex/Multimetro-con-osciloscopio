@@ -4,27 +4,25 @@ namespace Multimetro1_0_2.View;
 
 public partial class MainPage : ContentPage
 {
-    MainPage_VM microcontroller_ViewModel = new();
-
+    MainPage_VM mainPage_VM;
+    MicroController microController;
     public MainPage()
     {
         InitializeComponent();
-        this.BindingContext = microcontroller_ViewModel;
+        mainPage_VM = new();
+        this.BindingContext = mainPage_VM;
     }
 
     private void Button_Clicked(object sender, EventArgs e)
     {
         if (Option1.IsChecked)
         {
-            switch (microcontroller_ViewModel.NameMicrocontroller)
+            switch (mainPage_VM.NameMicrocontroller)
             {
 
                 case "Arduino_Uno":
                     {
-#if WINDOWS
-                        microcontroller_ViewModel.MicroController = new(new Driver(new USB(microcontroller_ViewModel.BaudRate, microcontroller_ViewModel.DeviceName)), 5, 10);
-#endif
-
+                        microController = new(mainPage_VM.BaudRate,mainPage_VM.NameMicrocontroller,mainPage_VM.DeviceName,TypeConnection.USB, 5, 10);
                         break;
                     }
                 case "Raspberry Pi Pico":
@@ -34,9 +32,9 @@ public partial class MainPage : ContentPage
 
             }
         }
-        if (microcontroller_ViewModel.MicroController.MicroPort.Connect())
+        if (microController.MicroPort.Connect())
         {
-            Navigation.PushAsync(new MenuPage(microcontroller_ViewModel.MicroController));
+            Navigation.PushAsync(new MenuPage(microController));
         };
 
 
@@ -45,7 +43,7 @@ public partial class MainPage : ContentPage
 
     private void Option1_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {
-        microcontroller_ViewModel.ArrayPorts = Driver.GetDevicesAvailables(Driver.usbConnection);
+        mainPage_VM.ArrayPorts = Driver.GetDevicesAvailables(TypeConnection.USB);
     }
 }
 

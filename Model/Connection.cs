@@ -12,10 +12,14 @@ using System.Timers;
 
 namespace Multimetro1_0_2.Model
 {
+    public enum TypeConnection
+    {
+        USB,
+        Bluetooth,
+        WIFI 
+    }
     public class Driver : IConnection
     {
-        public const string usbConnection = "USB_Connection";
-        public const string bluetoothConnection = "Bluetooth_Connection";
         private object connection;
         public int BaudRate { get; set; }
         public string Id { get; set; }
@@ -53,6 +57,14 @@ namespace Multimetro1_0_2.Model
             {
                 USB usb = (USB)connection;
                 BaudRate = usb.BaudRate;
+            }
+            if(connection.GetType() == typeof(Bluetooth))
+            {
+
+            }
+            if(connection.GetType()==typeof(WiFi))
+            {
+
             }
             SampleRate_relative = BaudRate / 8;
         }
@@ -97,9 +109,9 @@ namespace Multimetro1_0_2.Model
             throw new NotImplementedException();
 
         }
-        public static string[] GetDevicesAvailables(string? name_connection)
+        public static string[] GetDevicesAvailables(TypeConnection typeConnection)
         {
-            if (name_connection == usbConnection)
+            if (typeConnection == TypeConnection.USB)
             {
                 return USB.GetDevicesAvailables();
             }
@@ -181,8 +193,6 @@ namespace Multimetro1_0_2.Model
             }
             throw new NotImplementedException();
         }
-
-
     }
 
     public class USB :
@@ -211,7 +221,7 @@ namespace Multimetro1_0_2.Model
             port.Parity = Parity.None;
             port.DataBits = 8;
             port.StopBits = StopBits.One;
-            //port.DataReceived += Port_DataReceived;
+            port.DataReceived += Port_DataReceived;
         }
 
         private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -350,89 +360,59 @@ namespace Multimetro1_0_2.Model
 
 #endif
     }
+    public class WiFi : IConnection
+    {
+        public event EventHandler<Reading_EventArgs>? DataSerial_Received;
+        public int BaudRate { get; set; }
+        public string Id { get; set; }
+
+        public WiFi(int baudRate, string id)
+        {
+
+        }
+
+        public bool Connect()
+        {
+            throw new NotImplementedException();
+        }
+        public void Write(string dataOut)
+        {
+            throw new NotImplementedException();
+        }
+        public char ReadChar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DiscardInBuffer()
+        {
+            throw new NotImplementedException();
+        }
+        public static string[] GetDevicesAvailables()
+        {
+            throw new NotImplementedException();
+        }
+        public string ReadBuffer(int nbytes = -1)
+        {
+            throw new NotImplementedException();
+
+        }
+        public int BytesToRead()
+        {
+            throw new NotImplementedException();
+        }
+
+
+    }
     public class Bluetooth : IConnection
     {
         public event EventHandler<Reading_EventArgs>? DataSerial_Received;
         public int BaudRate { get; set; }
         public string Id { get; set; }
 
-#if WINDOWS
-        #region Windows  
-        public SerialPort port;
-
         public Bluetooth(int baudRate, string id)
         {
-            port = new SerialPort();
-            port.BaudRate = baudRate;
-            BaudRate = baudRate;
-            port.PortName = id;
-            Id = id;
-            port.Parity = Parity.None;
-            port.DataBits = 8;
-            port.StopBits = StopBits.One;
-            //port.DataReceived += Port_DataReceived;
-        }
 
-        private void Port_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            DataSerial_Received?.Invoke(this, new(""));
-        }
-
-        public bool Connect()
-        {
-            try
-            {
-                port.Open();
-                Debug.Print("Se pudo establecer una conexión exitosa con el puerto serial");
-                Debug.WriteLine(" ");
-                return true;
-            }
-            catch (Exception)
-            {
-                Debug.Print("No se pudo establecer una conexión con el puerto serial");
-                Debug.WriteLine(" ");
-                return false;
-            }
-        }
-        public void Write(string dataOut)
-        {
-            port.Write(dataOut);
-        }
-        public char ReadChar()
-        {
-            return (char)port.ReadChar();
-        }
-
-        public void DiscardInBuffer()
-        {
-            port.DiscardInBuffer();
-        }
-        public static string[] GetDevicesAvailables()
-        {
-            return SerialPort.GetPortNames();
-        }
-        public string ReadBuffer(int nbytes = -1)
-        {
-            if (nbytes == -1)
-            {
-                return port.ReadExisting();
-            }
-            char[] buffer = new char[nbytes];
-            port.Read(buffer, 0, nbytes);
-            return new(buffer);
-
-        }
-        public int BytesToRead()
-        {
-            return port.BytesToRead;
-        }
-
-        #endregion
-#elif ANDROID
-        #region Android
-        public Bluetooth(int baudRate, string id)
-        {
-            throw new NotImplementedException();
         }
 
         public bool Connect()
@@ -447,16 +427,8 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
-        public void DiscardInBuffer()
-        {
-            throw new NotImplementedException();
-        }
 
-        public string ReadBuffer(int nbytes = -1)
-        {
-            throw new NotImplementedException();
-        }
-        public int BytesToRead()
+        public void DiscardInBuffer()
         {
             throw new NotImplementedException();
         }
@@ -464,40 +436,17 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
-        #endregion
-#else
-        #region AnyPlatforms
-        public bool Connect()
-        {
-            throw new NotImplementedException();
-        }
-        public void Write(string dataOut)
-        {
-            throw new NotImplementedException();
-        }
-        public char ReadChar()
-        {
-            throw new NotImplementedException();
-        }
-        public void DiscardInBuffer()
-        {
-            throw new NotImplementedException();
-        }
-
         public string ReadBuffer(int nbytes = -1)
         {
             throw new NotImplementedException();
+
         }
         public int BytesToRead()
         {
             throw new NotImplementedException();
         }
-        public static string[] GetDevicesAvailables()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-#endif
+
+
     }
 }
 

@@ -9,20 +9,19 @@ namespace Multimetro1_0_2.View
     public partial class OsciloscopePage : ContentPage
 
     {
-        private Osciloscope_VM osciloscope_ViewModel;
+        private OsciloscopePage_VM osciloscope_ViewModel;
         private Osciloscope osciloscope;
         public OsciloscopePage(MicroController microController)
         {
             InitializeComponent();
             osciloscope = new(microController);
-            osciloscope_ViewModel = new Osciloscope_VM(osciloscope);
+            osciloscope_ViewModel = new OsciloscopePage_VM(osciloscope);
             BindingContext = osciloscope_ViewModel;
             osciloscope.Sample_Detected += Osciloscope_Sample_Received;
         }
 
         private void Osciloscope_Sample_Received(object? sender, MeasureSignalEventArgs e)
         {
-
             ObservableCollection<Measure> measures = [];
             Debug.WriteLine("Mediciones {0}", e.Sample.Length);
             foreach (var measure in e.Sample)
@@ -37,7 +36,7 @@ namespace Multimetro1_0_2.View
 
         private void Start_Toggled(object sender, ToggledEventArgs e)
         {
-            osciloscope_ViewModel.ControlRead(Switch_enabler.IsToggled);
+            osciloscope_ViewModel.Read(Switch_enabler.IsToggled);
         }
     }
 }

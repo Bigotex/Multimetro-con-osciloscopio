@@ -9,7 +9,7 @@
         Osciloscope,
         Amperimeter
     }
-    public class Instrument
+    public abstract class Instrument
     {
         public const string keyRead = "Osciloscope";
         private Driver port;
@@ -27,7 +27,6 @@
         public Driver Driver
         {
             get { return port; }
-            set { port = value; }
         }
         public Instrument(MicroController? microController)
         {
@@ -35,20 +34,11 @@
             port = microController.MicroPort;
         }
 
-        public virtual void StartMeasuring()
-        {
+        public abstract void StartMeasurement();
 
-        }
+        public abstract void StopMeasurement();
 
-
-        public virtual void StopMeasuring()
-        {
-            //Port.StopEventRead();
-        }
-        protected virtual Task MeasuresAsync(Reading_EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract Task MeasurementAsync(Reading_EventArgs e);
 
     }
 
@@ -64,7 +54,6 @@
 
         public Osciloscope(MicroController microController) : base(microController)
         {
-
             convertion = (float)(microController.VRef / Math.Pow(2, microController.ADC_BitsResolution));
             Driver.Write(keyRead);
             Buffer2 buffer = new(Driver.ReadBuffer());
@@ -100,18 +89,18 @@
             Sample_Detected?.Invoke(this, args);
         }
 
-        public override void StartMeasuring()
+        public override void StartMeasurement()
         {
-            Driver.DiscardInBuffer();
+            Driver.DiscardInBuffer(); 
             Driver.Write(keyRead);
-            Driver.DataSerial_Received += ReadMeasuresAsync;
+            Driver.DataSerial_Received += ReadMeasurementAsync;
             Driver.StartEventRead();
         }
-        public override void StopMeasuring()
+        public override void StopMeasurement()
         {
             try
             {
-                Driver.DataSerial_Received -= ReadMeasuresAsync;
+                Driver.DataSerial_Received -= ReadMeasurementAsync;
                 Driver.StopEventRead();
             }
             catch (Exception)
@@ -127,9 +116,9 @@
         /// Método que ejecuta tareas asíncronas para la medición de datos.
         /// </summary>
 
-        private async void ReadMeasuresAsync(object? obj, Reading_EventArgs e)
+        private async void ReadMeasurementAsync(object? obj, Reading_EventArgs e)
         {
-            (float, ulong)[] results = await MeasuresAsync(e);
+            (float, ulong)[] results = await MeasurementAsync(e);
             On_New_Sample(results);
         }
 
@@ -137,9 +126,9 @@
         /// Método que mide las señales que llegan del puerto de manera óptima mediante procesos asíncronos.
         /// </summary>
         /// <param name="e">Argumento en el que contiene un buffer con interfaces de enumeración.{IEnumerator,IEnumerable}</param>
-        /// <returns>TResult de Array de tuplas del tipo (int,long)</returns>
+        /// <returns>TResult de Array de tuplas del tipo (float,long)</returns>
 
-        protected override async Task<(float, ulong)[]> MeasuresAsync(Reading_EventArgs e)
+        protected override async Task<(float, ulong)[]> MeasurementAsync(Reading_EventArgs e) 
         {
             List<Task<(float, ulong)>> taskMeasures = [];
             foreach (string newLine in e.CurrentBuffer)

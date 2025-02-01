@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Multimetro1_0_2.Model.Buffer2">
+    <Position X="13.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAgAABBAAAACAIAAAAAAAAAAAIAAQAAAAAAA=</HashCode>
+      <FileName>Model\Buffer.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Driver" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQCCAAAEAAAEIACAAABAIAAABQAAAAQAABBAAEEIQQ=</HashCode>
+      <FileName>Model\Connection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.USB" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACGAAAAAAQEIACAAAAAIAAAAQAAAAAAAAAAAUEAAQ=</HashCode>
+      <FileName>Model\Connection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Bluetooth" BaseTypeListCollapsed="true">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAEIACAAAAAIAAAAQAAAAAAAAAAAEEAAQ=</HashCode>
+      <FileName>Model\Connection.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Excel">
+    <Position X="15" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Excel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Instrument">
+    <Position X="7" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAQAIAAAAAAAAAAAAAgAgAAACAEAAAFAA=</HashCode>
+      <FileName>Model\Instrument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Osciloscope">
+    <Position X="7" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAQAAIAAAAAAAACBEAAAAAAAAAAAAAAACAEAAAEAA=</HashCode>
+      <FileName>Model\Instrument.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.MicroController">
+    <Position X="2.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAEAEAABAAAAAAAAAAAABAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Model\Microcontroller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Arduino">
+    <Position X="2.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Microcontroller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.RaspberryPi">
+    <Position X="0.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Microcontroller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.ESP8266">
+    <Position X="5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\Microcontroller.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.Reading_EventArgs">
+    <Position X="9.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ObjectsEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.MeasureEventArgs">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ObjectsEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.Model.MeasureSignalEventArgs">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Model\ObjectsEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.View.MainPage">
+    <Position X="15.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>View\MainPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.View.MenuPage">
+    <Position X="11.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>View\MenuPage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Multimetro1_0_2.View.OsciloscopePage">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIEAAAAAAAAABAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
+      <FileName>View\OsciloscopePage.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Multimetro1_0_2.Model.IConnection">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAAIACAAAAAIAAAAQAAAAAAAAAAAEEAAQ=</HashCode>
+      <FileName>Model\IConnection.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Multimetro1_0_2.Model.TypeInstrument">
+    <Position X="9" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAIAAAAAEAAAAAAAAAAAACA=</HashCode>
+      <FileName>Model\Instrument.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -5,6 +5,7 @@
         public event EventHandler<Reading_EventArgs>? DataSerial_Received;
         public int BaudRate { get; set; }
         public string Id { get; set; }
+
         public int BytesToRead();
         public bool Connect();
         public void Write(string dataOut);

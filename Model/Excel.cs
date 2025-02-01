@@ -1,11 +1,23 @@
-﻿using OfficeOpenXml;
+﻿using Microsoft.VisualBasic;
+using OfficeOpenXml;
+using System.Collections;
 
 namespace Multimetro1_0_2.Model
 {
     internal class Excel
     {
-        public static void CreateTable(string[,] data, string filename)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="filename"></param>
+        /// <returns> falso: cuando ocurrió un error al crear la tabla Verdadero:Creación de tabla exitosa</returns>
+        public static bool CreateTable(dynamic data, string filename,string path)
         {
+            if (data is not IEnumerable)
+            {
+                return false;
+            }
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using (var package = new ExcelPackage())
             {
@@ -19,9 +31,10 @@ namespace Multimetro1_0_2.Model
                         worksheet.Cells[i, j].Value = data[i - 1, j - 1];
                     }
                 }
-                string filePath = Path.Combine(FileSystem.AppDataDirectory, filename + ".xlsx");
+                string filePath = Path.Combine(path, filename + ".xlsx");
                 FileInfo fi = new FileInfo(filePath);
                 package.SaveAs(fi);
+                return true;
             }
 
 

@@ -6,7 +6,6 @@ namespace Multimetro1_0_2.View_Model
 {
     public class MainPage_VM : Notification
     {
-        public MicroController MicroController { get; set; }
         public int[] Array_Baudrate_Range { get; set; }
 
         private string[] array_Microcontroller;
@@ -46,7 +45,6 @@ namespace Multimetro1_0_2.View_Model
         public string NameMicrocontroller { get; set; }
         public string DeviceName { get; set; }
         public int BaudRate { get; set; }
-        //private Port port;
 
 
         public MainPage_VM()
