@@ -1,16 +1,16 @@
-﻿namespace Multimetro1_0_2.Model
+﻿using System.Collections;
+
+namespace Multimetro1_0_2.Model
 {
     public class Reading_EventArgs : EventArgs
     {
-        public Buffer2 CurrentBuffer { get; }
-        public Reading_EventArgs(string Buffer2)
+        public readonly byte[] data;
+        public Reading_EventArgs(byte[] data)
         {
-            CurrentBuffer = new(Buffer2);
+            this.data = data;
         }
-        public Reading_EventArgs(char Buffer2)
-        {
-            CurrentBuffer = new(Buffer2);
-        }
+
+
 
     }
     public class MeasureEventArgs : EventArgs

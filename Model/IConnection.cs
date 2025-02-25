@@ -9,8 +9,10 @@
         public int BytesToRead();
         public bool Connect();
         public void Write(string dataOut);
+        public void Write(int dataOut);
+        public void Write(byte[] dataOut);
         public char ReadChar();
         public void DiscardInBuffer();
-        public string ReadBuffer(int nbytes = -1);
+        public byte[] ReadBuffer(int position = 0, int nbytes = -1);
     }
 }

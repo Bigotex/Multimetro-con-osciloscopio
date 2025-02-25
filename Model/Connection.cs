@@ -18,6 +18,7 @@ namespace Multimetro1_0_2.Model
         Bluetooth,
         WIFI 
     }
+
     public class Driver : IConnection
     {
         private object connection;
@@ -36,7 +37,7 @@ namespace Multimetro1_0_2.Model
                 if (value != sampleRate_relative)
                 {
                     sampleRate_relative = value;
-                    double time = (double)value / (BaudRate / 8);//Obtenemos el tiempo que se tarda en recibir datos en segundos.
+                    double time = (double)(value / (BaudRate / 8));//Obtenemos el tiempo que se tarda en recibir datos en segundos.
                     time = time * Math.Pow(10, 3); //Convertimos a milisegundos
                     timer.Interval = time;
                 }
@@ -73,14 +74,14 @@ namespace Multimetro1_0_2.Model
         {
             if (BytesToRead() > SampleRate_relative)
             {
-                DataSerial_Received?.Invoke(this, new(ReadBuffer(SampleRate_relative)));
+                DataSerial_Received?.Invoke(this, new([]));
             }
             else
             {
-                DataSerial_Received?.Invoke(this, new(ReadBuffer(BytesToRead())));
+                DataSerial_Received?.Invoke(this, new([]));
             }
         }
-
+        #region Write
         public void Write(string data)
         {
             if (connection.GetType() == typeof(USB))
@@ -93,6 +94,16 @@ namespace Multimetro1_0_2.Model
                 throw new NotImplementedException();
             }
         }
+        public void Write(int dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] dataOut)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         public char ReadChar()
         {
             if (connection.GetType() == typeof(USB))
@@ -144,18 +155,19 @@ namespace Multimetro1_0_2.Model
             if (connection.GetType() == typeof(USB))
             {
                 USB usb = (USB)connection;
+                usb.DiscardInBuffer();
             }
             else if (connection.GetType() == typeof(Bluetooth))
             {
                 Bluetooth bluetooth = (Bluetooth)connection;
             }
         }
-        public string ReadBuffer(int nbytes = -1)
+        public byte[] ReadBuffer(int position=0,int nbytes = -1)
         {
             if (connection.GetType() == typeof(USB))
             {
                 USB usb = (USB)connection;
-                return usb.ReadBuffer(nbytes);
+                return usb.ReadBuffer(position,nbytes);
             }
             else if (connection.GetType() == typeof(Bluetooth))
             {
@@ -167,12 +179,24 @@ namespace Multimetro1_0_2.Model
 
         public void StartEventRead()
         {
+            if (connection.GetType() == typeof(USB))
+            {
+                USB usb = (USB)connection;
+                usb.DiscardInBuffer();
+            }
+            else if (connection.GetType() == typeof(Bluetooth))
+            {
+                Bluetooth bluetooth = (Bluetooth)connection;
+                throw new NotImplementedException();
+            }
             timer.Start();
+
         }
 
         public void StopEventRead()
         {
             timer.Stop();
+
         }
         /// <summary>
         /// 
@@ -193,6 +217,8 @@ namespace Multimetro1_0_2.Model
             }
             throw new NotImplementedException();
         }
+
+
     }
 
     public class USB :
@@ -245,10 +271,25 @@ namespace Multimetro1_0_2.Model
                 return false;
             }
         }
+        #region Write
         public void Write(string dataOut)
         {
             port.Write(dataOut);
         }
+        public void Write(int dataOut)
+        {
+            port.Write(dataOut.ToString());
+
+        }
+
+        public void Write(byte[] dataOut)
+        {
+            if(dataOut.Length!=0)
+            {
+               port.Write(dataOut, 0, dataOut.Length-1);
+            }
+        }
+        #endregion
         public char ReadChar()
         {
             return (char)port.ReadChar();
@@ -262,21 +303,26 @@ namespace Multimetro1_0_2.Model
         {
             return SerialPort.GetPortNames();
         }
-        public string ReadBuffer(int nbytes = -1)
+        public byte[] ReadBuffer(int position=0,int nbytes = -1)
         {
+            byte[] buffer;
             if (nbytes == -1)
             {
-                return port.ReadExisting();
+                buffer = new byte[port.BytesToRead-position];
+                port.Read(buffer, position, port.BytesToRead);
+                return buffer;
             }
-            char[] buffer = new char[nbytes];
-            port.Read(buffer, 0, nbytes);
-            return new(buffer);
+            buffer = new byte[port.BytesToRead - position];
+            port.Read(buffer, position, nbytes);
+            return buffer;
 
         }
         public int BytesToRead()
         {
             return port.BytesToRead;
         }
+
+
 
         #endregion
 #elif ANDROID
@@ -312,7 +358,7 @@ namespace Multimetro1_0_2.Model
             throw new NotImplementedException();
         }
 
-        public string ReadBuffer(int nbytes = -1)
+        public byte[] ReadBuffer(int position=0,int nbytes = -1)
         {
             throw new NotImplementedException();
         }
@@ -321,6 +367,16 @@ namespace Multimetro1_0_2.Model
             throw new NotImplementedException();
         }
         public static string[] GetDevicesAvailables()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(int dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] dataOut)
         {
             throw new NotImplementedException();
         }
@@ -344,15 +400,26 @@ namespace Multimetro1_0_2.Model
             throw new NotImplementedException();
         }
 
-        public string ReadBuffer(int nbytes = -1)
-        {
-            throw new NotImplementedException();
-        }
         public int BytesToRead()
         {
             throw new NotImplementedException();
         }
         public static string[] GetDevicesAvailables()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(int dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public byte[] ReadBuffer(int position = 0, int nbytes = -1)
         {
             throw new NotImplementedException();
         }
@@ -375,10 +442,21 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
+        #region Write
         public void Write(string dataOut)
         {
             throw new NotImplementedException();
         }
+        public void Write(int dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] dataOut)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         public char ReadChar()
         {
             throw new NotImplementedException();
@@ -392,7 +470,7 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
-        public string ReadBuffer(int nbytes = -1)
+        public byte[] ReadBuffer(int position=0,int nbytes = -1)
         {
             throw new NotImplementedException();
 
@@ -419,10 +497,21 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
+        #region Write
         public void Write(string dataOut)
         {
             throw new NotImplementedException();
         }
+        public void Write(int dataOut)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Write(byte[] dataOut)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
         public char ReadChar()
         {
             throw new NotImplementedException();
@@ -436,7 +525,7 @@ namespace Multimetro1_0_2.Model
         {
             throw new NotImplementedException();
         }
-        public string ReadBuffer(int nbytes = -1)
+        public byte[] ReadBuffer(int position=0,int nbytes = -1)
         {
             throw new NotImplementedException();
 
